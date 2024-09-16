@@ -5,6 +5,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include("generator.urls", namespace="generator")),
+    path('', include(('generator.urls', 'generator'), namespace='video')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
