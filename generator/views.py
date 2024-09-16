@@ -1,9 +1,18 @@
 import os
 import tempfile
 
+from django.core.files import File
 from django.http import HttpResponse
+from django.views.generic import TemplateView
 from moviepy.editor import TextClip, ColorClip, CompositeVideoClip
 from rest_framework.viewsets import ViewSet
+
+from generator.models import Video
+
+
+class HomePageView(TemplateView):
+    """Главная страница"""
+    template_name = 'generator/base.html'
 
 
 class VideoViewSet(ViewSet):
@@ -23,11 +32,10 @@ class VideoViewSet(ViewSet):
         ).set_duration(video_duration)
 
         # Перемещение текста по горизонтали (эффект "бегущей строки")
-        text_clip = text_clip.set_position(lambda t: (100 - 100*t, 'bottom'))
+        text_clip = text_clip.set_position(lambda t: (100 - 100 * t, 'bottom'))
 
         # Создание фонового клипа с фиолетовым фоном
         background_clip = ColorClip(size=video_size, color=(255, 0, 255)).set_duration(video_duration)
-
 
         video = CompositeVideoClip([background_clip, text_clip])
 
@@ -40,7 +48,5 @@ class VideoViewSet(ViewSet):
                 response = HttpResponse(f.read(), content_type='video/mp4')
                 response['Content-Disposition'] = 'attachment; filename="video.mp4"'
 
-            # Удаление временного файла
             os.remove(temp_file.name)
-
         return response
