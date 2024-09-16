@@ -3,7 +3,7 @@ NULLABLE = {'blank': True, 'null': True}
 
 class Video(models.Model):
 
-    video_file = models.FileField(upload_to='media/video/')
+    video_file = models.FileField(upload_to='video/')
 
     title = models.CharField(max_length=100, **NULLABLE, verbose_name='Название')
     description = models.TextField(**NULLABLE, verbose_name='Описание')
