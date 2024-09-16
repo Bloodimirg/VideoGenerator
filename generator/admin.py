@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+from generator.models import Video
+
+
+@admin.register(Video)
+class VideoAdmin(admin.ModelAdmin):
+    """Админка видео"""
+    list_display = ("pk", "title", "description", "uploaded_at")
