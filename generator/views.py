@@ -21,7 +21,7 @@ class VideoViewSet(ViewSet):
         # Параметры видео
         video_duration = 3
         video_size = (100, 100)
-        text = "Салют"
+        text = request.GET.get('text', 'Привет, мир!')
 
         # Создание текстового клипа (бегущей строки)
         text_clip = TextClip(
