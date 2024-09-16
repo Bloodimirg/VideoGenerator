@@ -43,6 +43,11 @@ class VideoViewSet(ViewSet):
         with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as temp_file:
             video.write_videofile(temp_file.name, fps=24)
 
+            with open(temp_file.name, 'rb') as f:
+                django_file = File(f)
+                video_instance = Video(title="Сгенерированное видео")
+                video_instance.video_file.save('video.mp4', django_file, save=True)
+
             # Чтение сгенерированного файла и отправка его как ответ
             with open(temp_file.name, 'rb') as f:
                 response = HttpResponse(f.read(), content_type='video/mp4')
